@@ -19,7 +19,15 @@ if (Test-Path $wezDest) {
 Copy-Item (Join-Path $Dotfiles "wezterm\wezterm.lua") $wezDest -Force
 Write-Host "  OK wezterm.lua -> $wezDest"
 
-# 2. Shell aliases (cc, dn) — dot-sourced from the repo via the PowerShell profile.
+# 2. Starship prompt config -> ~/.config/starship.toml
+$cfgDir = Join-Path $HOME ".config"
+New-Item -ItemType Directory -Force -Path $cfgDir | Out-Null
+$starDest = Join-Path $cfgDir "starship.toml"
+if (Test-Path $starDest) { Copy-Item $starDest "$starDest.bak" -Force }
+Copy-Item (Join-Path $Dotfiles "starship\starship.toml") $starDest -Force
+Write-Host "  OK starship.toml -> $starDest"
+
+# 3. Shell aliases (cc, dn) + starship init — dot-sourced via the PowerShell profile.
 $aliases = Join-Path $Dotfiles "shell\aliases.ps1"
 $marker  = "# >>> dotfiles aliases >>>"
 if (-not (Test-Path $PROFILE)) { New-Item -ItemType File -Force -Path $PROFILE | Out-Null }

@@ -28,7 +28,13 @@ backup "$WEZ_DIR/wezterm.lua"
 cp "$DOTFILES/wezterm/wezterm.lua" "$WEZ_DIR/wezterm.lua"
 echo "  ✓ wezterm.lua -> $WEZ_DIR/wezterm.lua"
 
-# 2. Shell aliases (cc, dn) — sourced from the repo so edits are live, no re-copy.
+# 2. Starship prompt config — ~/.config/starship.toml on every platform.
+mkdir -p "$HOME/.config"
+backup "$HOME/.config/starship.toml"
+cp "$DOTFILES/starship/starship.toml" "$HOME/.config/starship.toml"
+echo "  ✓ starship.toml -> $HOME/.config/starship.toml"
+
+# 3. Shell aliases (cc, dn) + starship init — sourced from the repo, edits live.
 ALIASES="$DOTFILES/shell/aliases.sh"
 MARKER="# >>> dotfiles aliases >>>"
 wired=0
@@ -45,7 +51,7 @@ for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
 done
 [ "$wired" = 1 ] || echo "  • no ~/.zshrc or ~/.bashrc found — add: source \"$ALIASES\""
 
-# 3. WezTerm app icon (macOS only).
+# 4. WezTerm app icon (macOS only).
 if [ "$OS" = mac ]; then
   bash "$DOTFILES/scripts/set-wezterm-icon.sh" || echo "  • icon step skipped"
 else

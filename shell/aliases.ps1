@@ -8,3 +8,8 @@ function cc { claude --dangerously-skip-permissions @args }
 # dn: open today's Obsidian daily note (created from the template if missing)
 # and focus it. Uses the vault *name*, so it's portable across machines.
 function dn { Start-Process "obsidian://daily?vault=Obsidian%20Vault" }
+
+# starship prompt (config installed at ~/.config/starship.toml)
+if (Get-Command starship -ErrorAction SilentlyContinue) {
+  Invoke-Expression (&starship init powershell)
+}
