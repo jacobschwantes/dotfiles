@@ -57,6 +57,12 @@ config.inactive_pane_hsb = {
 }
 
 if is_windows then
+  -- Launch PowerShell instead of cmd.exe. Prefer PowerShell 7 (pwsh.exe) if
+  -- installed, else fall back to built-in Windows PowerShell (powershell.exe).
+  -- pcall guards the spawn; the 2nd value is `where`'s exit-success (pwsh found).
+  local ok, found = pcall(wezterm.run_child_process, { "where", "pwsh.exe" })
+  config.default_prog = { (ok and found) and "pwsh.exe" or "powershell.exe", "-NoLogo" }
+
   config.win32_system_backdrop = "Acrylic"
   config.window_background_opacity = 0.7
   config.window_frame.font_size = 10.0
